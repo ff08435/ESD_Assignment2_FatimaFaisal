@@ -206,13 +206,12 @@ Try it:
 ## Documentation
 
 Since the you pick the programming language of server, you have to document how to run the solution. Add that documentation to the below section.
-
+**TODO**: Add documentation on how to run the solution here.
 # Running the Solution (1 point)
 All dependencies are already included in the libs/ folder.
 The generated SDK included
 ## Prerequisites
 Java JDK 17 or higher
-**TODO**: Add documentation on how to run the solution here.
 ## 1. Set Up Environment Variables:
 setx OPENWEATHER_API_KEY "your_api_key_here"
 setx SERVER_PORT 9999
