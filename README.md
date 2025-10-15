@@ -210,12 +210,13 @@ Since the you pick the programming language of server, you have to document how 
 # Running the Solution (1 point)
 All dependencies are already included in the libs/ folder.
 The generated SDK included
+
 ## Prerequisites
 Java JDK 17 or higher
+## 0. Download the repository.
 ## 1. Set Up Environment Variables:
 setx OPENWEATHER_API_KEY "your_api_key_here"
 setx SERVER_PORT 9999
-
 ## 2 Start the Reference Server (Provided Binary)
 Terminal A:
 ./tools/server/server-windows-amd64.exe
@@ -232,8 +233,9 @@ javac -cp ".;libs/*;server/pb;openweather" tools/server/WeatherAdvisoryServer.ja
 run server:
 java -cp ".;libs/*;server/pb;openweather" tools.server.WeatherAdvisoryServer
 # 6. Test with client
-
-
+./tools/client/client-windows-amd64.exe weather -city "Karachi"
+./tools/client/client-windows-amd64.exe air-quality -city "Karachi"
+./tools/client/client-windows-amd64.exe travel -city "Karachi"
 
 
 # Testing the Solution
