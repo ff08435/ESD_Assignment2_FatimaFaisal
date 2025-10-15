@@ -232,7 +232,7 @@ In Terminal A, press Ctrl + C to stop it.
 javac -cp ".;libs/*;server/pb;openweather" tools/server/WeatherAdvisoryServer.java server/pb/WeatherAdvisory/*.java
 2. run server:
 java -cp ".;libs/*;server/pb;openweather" tools.server.WeatherAdvisoryServer
-# 6. Test with client
+# 6. Test with client in another terminal:
 ./tools/client/client-windows-amd64.exe weather -city "Karachi"
 ./tools/client/client-windows-amd64.exe air-quality -city "Karachi"
 ./tools/client/client-windows-amd64.exe travel -city "Karachi"
