@@ -228,9 +228,9 @@ Open Terminal B and run:
 ## 4. Stop the Reference Server
 In Terminal A, press Ctrl + C to stop it.
 ## 5. Run Implemented Server:
-compile:
+1. compile:
 javac -cp ".;libs/*;server/pb;openweather" tools/server/WeatherAdvisoryServer.java server/pb/WeatherAdvisory/*.java
-run server:
+2. run server:
 java -cp ".;libs/*;server/pb;openweather" tools.server.WeatherAdvisoryServer
 # 6. Test with client
 ./tools/client/client-windows-amd64.exe weather -city "Karachi"
