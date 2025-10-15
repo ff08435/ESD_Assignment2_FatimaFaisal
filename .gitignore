@@ -1,0 +1,44 @@
+# === Build and system files ===
+*.class
+*.log
+*.tmp
+*.swp
+*.swo
+
+# === IDE specific ===
+.vscode/
+.idea/
+*.iml
+
+# === OS specific ===
+.DS_Store
+Thumbs.db
+
+# === Gradle/Maven ===
+.gradle/
+build/
+target/
+out/
+
+# === Generated SDK files (rebuildable) ===
+openweather/build/
+openweather/.gradle/
+openweather/.openapi-generator/
+openweather/src/test/
+openweather/docs/
+
+# === Executables ===
+*.exe
+*.bat
+
+# === Node/other leftovers (safety) ===
+node_modules/
+.env
+
+# === Ignore jar files EXCEPT libs/ ===
+*.jar
+!libs/*.jar
+
+# === Python cache (if any scripts exist) ===
+__pycache__/
+*.pyc

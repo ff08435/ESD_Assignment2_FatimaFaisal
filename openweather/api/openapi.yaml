@@ -1,0 +1,505 @@
+openapi: 3.0.0
+info:
+  contact:
+    name: OpenWeatherMap Support
+    url: https://openweathermap.org
+  description: "API for fetching weather, air quality, and geocoding data from OpenWeatherMap."
+  title: OpenWeather Proxy API
+  version: 1.0.0
+servers:
+- description: OpenWeatherMap Base URL
+  url: https://api.openweathermap.org
+paths:
+  /data/2.5/weather:
+    get:
+      description: "Fetch current weather details such as temperature, humidity, and\
+        \ weather description."
+      parameters:
+      - description: "Name of the city (or city, state, and country)."
+        explode: true
+        in: query
+        name: q
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: API key for authentication.
+        explode: true
+        in: query
+        name: appid
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_data_2_5_weather_get_200_response"
+          description: Successful response for current weather data
+        "401":
+          description: Unauthorized - Invalid API key
+        "404":
+          description: Resource not found
+      summary: Get current weather data for a city
+      x-accepts:
+      - application/json
+  /data/2.5/forecast:
+    get:
+      description: Retrieve weather forecasts at 3-hour intervals for the next 5 days.
+      parameters:
+      - description: "Name of the city (or city, state, and country)."
+        explode: true
+        in: query
+        name: q
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: API key for authentication.
+        explode: true
+        in: query
+        name: appid
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_data_2_5_forecast_get_200_response"
+          description: Successful response for weather forecast data
+        "401":
+          description: Unauthorized - Invalid API key
+        "404":
+          description: Resource not found
+      summary: Get 5-day/3-hour weather forecast
+      x-accepts:
+      - application/json
+  /data/2.5/air_pollution:
+    get:
+      description: Fetch air quality data for specific coordinates.
+      parameters:
+      - description: "Latitude of the location (e.g., \"51.5074\")."
+        explode: true
+        in: query
+        name: lat
+        required: true
+        schema:
+          type: number
+        style: form
+      - description: "Longitude of the location (e.g., \"-0.1278\")."
+        explode: true
+        in: query
+        name: lon
+        required: true
+        schema:
+          type: number
+        style: form
+      - description: API key for authentication.
+        explode: true
+        in: query
+        name: appid
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_data_2_5_air_pollution_get_200_response"
+          description: Successful response for air quality data
+        "401":
+          description: Unauthorized - Invalid API key
+        "404":
+          description: Resource not found
+      summary: Get air quality data
+      x-accepts:
+      - application/json
+  /geo/1.0/direct:
+    get:
+      description: "Fetch geographic coordinates for a given city, state, and country."
+      parameters:
+      - description: "Name of the city (or city, state, and country)."
+        explode: true
+        in: query
+        name: q
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: Maximum number of results to return.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 5
+          type: integer
+        style: form
+      - description: API key for authentication.
+        explode: true
+        in: query
+        name: appid
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/_geo_1_0_direct_get_200_response_inner"
+                type: array
+          description: Successful response for geocoding data
+        "401":
+          description: Unauthorized - Invalid API key
+        "404":
+          description: Resource not found
+      summary: Geocode a location
+      x-accepts:
+      - application/json
+components:
+  parameters:
+    q:
+      description: "Name of the city (or city, state, and country)."
+      explode: true
+      in: query
+      name: q
+      required: true
+      schema:
+        type: string
+      style: form
+    appid:
+      description: API key for authentication.
+      explode: true
+      in: query
+      name: appid
+      required: true
+      schema:
+        type: string
+      style: form
+    lat:
+      description: "Latitude of the location (e.g., \"51.5074\")."
+      explode: true
+      in: query
+      name: lat
+      required: true
+      schema:
+        type: number
+      style: form
+    lon:
+      description: "Longitude of the location (e.g., \"-0.1278\")."
+      explode: true
+      in: query
+      name: lon
+      required: true
+      schema:
+        type: number
+      style: form
+    limit:
+      description: Maximum number of results to return.
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 5
+        type: integer
+      style: form
+  responses:
+    WeatherResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/_data_2_5_weather_get_200_response"
+      description: Successful response for current weather data
+    ForecastResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/_data_2_5_forecast_get_200_response"
+      description: Successful response for weather forecast data
+    AirPollutionResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/_data_2_5_air_pollution_get_200_response"
+      description: Successful response for air quality data
+    GeocodeResponse:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: "#/components/schemas/_geo_1_0_direct_get_200_response_inner"
+            type: array
+      description: Successful response for geocoding data
+    UnauthorizedResponse:
+      description: Unauthorized - Invalid API key
+    NotFoundResponse:
+      description: Resource not found
+  schemas:
+    _data_2_5_air_pollution_get_200_response:
+      example:
+        list:
+        - components:
+            pm2_5: 6.027456183070403
+            pm10: 1.4658129805029452
+            co: 5.962133916683182
+          main:
+            aqi: 0
+        - components:
+            pm2_5: 6.027456183070403
+            pm10: 1.4658129805029452
+            co: 5.962133916683182
+          main:
+            aqi: 0
+      properties:
+        list:
+          items:
+            $ref: "#/components/schemas/_data_2_5_air_pollution_get_200_response_list_inner"
+          type: array
+      type: object
+    _data_2_5_weather_get_200_response:
+      example:
+        weather:
+        - description: description
+          main: main
+        - description: description
+          main: main
+        main:
+          temp: 0.8008281904610115
+          humidity: 1.4658129805029452
+          feels_like: 6.027456183070403
+      properties:
+        weather:
+          items:
+            $ref: "#/components/schemas/_data_2_5_weather_get_200_response_weather_inner"
+          type: array
+        main:
+          $ref: "#/components/schemas/_data_2_5_weather_get_200_response_main"
+      type: object
+    _data_2_5_forecast_get_200_response_list_inner:
+      example:
+        dt_txt: 2025-10-15 12:00:00
+        weather:
+        - description: clear sky
+          main: Clear
+        - description: clear sky
+          main: Clear
+        main:
+          temp: 297.15
+          humidity: 65
+          feels_like: 296.5
+      properties:
+        dt_txt:
+          example: 2025-10-15 12:00:00
+          type: string
+        main:
+          $ref: "#/components/schemas/_data_2_5_forecast_get_200_response_list_inner_main"
+        weather:
+          items:
+            $ref: "#/components/schemas/_data_2_5_forecast_get_200_response_list_inner_weather_inner"
+          type: array
+      type: object
+    _geo_1_0_direct_get_200_response_inner:
+      example:
+        local_names:
+          key: local_names
+        country: country
+        name: name
+        lon: 6.027456183070403
+        state: state
+        lat: 0.8008281904610115
+      properties:
+        name:
+          type: string
+        local_names:
+          additionalProperties:
+            type: string
+          type: object
+        lat:
+          type: number
+        lon:
+          type: number
+        country:
+          type: string
+        state:
+          type: string
+      type: object
+    _data_2_5_forecast_get_200_response_city_coord:
+      example:
+        lon: 67.0011
+        lat: 24.8607
+      properties:
+        lat:
+          example: 24.8607
+          type: number
+        lon:
+          example: 67.0011
+          type: number
+      type: object
+    _data_2_5_forecast_get_200_response_list_inner_main:
+      example:
+        temp: 297.15
+        humidity: 65
+        feels_like: 296.5
+      properties:
+        temp:
+          example: 297.15
+          type: number
+        feels_like:
+          example: 296.5
+          type: number
+        humidity:
+          example: 65
+          type: number
+      type: object
+    _data_2_5_air_pollution_get_200_response_list_inner:
+      example:
+        components:
+          pm2_5: 6.027456183070403
+          pm10: 1.4658129805029452
+          co: 5.962133916683182
+        main:
+          aqi: 0
+      properties:
+        main:
+          $ref: "#/components/schemas/_data_2_5_air_pollution_get_200_response_list_inner_main"
+        components:
+          $ref: "#/components/schemas/_data_2_5_air_pollution_get_200_response_list_inner_components"
+      type: object
+    _data_2_5_forecast_get_200_response_list_inner_weather_inner:
+      example:
+        description: clear sky
+        main: Clear
+      properties:
+        description:
+          example: clear sky
+          type: string
+        main:
+          example: Clear
+          type: string
+      type: object
+    _data_2_5_weather_get_200_response_main:
+      example:
+        temp: 0.8008281904610115
+        humidity: 1.4658129805029452
+        feels_like: 6.027456183070403
+      properties:
+        temp:
+          type: number
+        feels_like:
+          type: number
+        humidity:
+          type: number
+      type: object
+    _data_2_5_air_pollution_get_200_response_list_inner_main:
+      example:
+        aqi: 0
+      properties:
+        aqi:
+          type: integer
+      type: object
+    _data_2_5_weather_get_200_response_weather_inner:
+      example:
+        description: description
+        main: main
+      properties:
+        description:
+          type: string
+        main:
+          type: string
+      type: object
+    _data_2_5_air_pollution_get_200_response_list_inner_components:
+      example:
+        pm2_5: 6.027456183070403
+        pm10: 1.4658129805029452
+        co: 5.962133916683182
+      properties:
+        pm2_5:
+          type: number
+        pm10:
+          type: number
+        co:
+          type: number
+      type: object
+    _data_2_5_forecast_get_200_response:
+      example:
+        city:
+          country: PK
+          coord:
+            lon: 67.0011
+            lat: 24.8607
+          name: Karachi
+          id: 1174872
+        cnt: 40
+        cod: "200"
+        message: 0
+        list:
+        - dt_txt: 2025-10-15 12:00:00
+          weather:
+          - description: clear sky
+            main: Clear
+          - description: clear sky
+            main: Clear
+          main:
+            temp: 297.15
+            humidity: 65
+            feels_like: 296.5
+        - dt_txt: 2025-10-15 12:00:00
+          weather:
+          - description: clear sky
+            main: Clear
+          - description: clear sky
+            main: Clear
+          main:
+            temp: 297.15
+            humidity: 65
+            feels_like: 296.5
+      properties:
+        cod:
+          example: "200"
+          type: string
+        message:
+          example: 0
+          type: number
+        cnt:
+          example: 40
+          type: integer
+        list:
+          items:
+            $ref: "#/components/schemas/_data_2_5_forecast_get_200_response_list_inner"
+          type: array
+        city:
+          $ref: "#/components/schemas/_data_2_5_forecast_get_200_response_city"
+      type: object
+    _data_2_5_forecast_get_200_response_city:
+      example:
+        country: PK
+        coord:
+          lon: 67.0011
+          lat: 24.8607
+        name: Karachi
+        id: 1174872
+      properties:
+        id:
+          example: 1174872
+          type: integer
+        name:
+          example: Karachi
+          type: string
+        country:
+          example: PK
+          type: string
+        coord:
+          $ref: "#/components/schemas/_data_2_5_forecast_get_200_response_city_coord"
+      type: object
+
